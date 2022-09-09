@@ -25,7 +25,7 @@ type postgre struct {
 	Conn   *sql.DB
 }
 
-func NewPostgreeDb(host, port, dbName, user, pass string) DB {
+func NewPostgreeDb(host, port, dbName, user, pass string) *postgre {
 	return &postgre{
 		host:   host,
 		port:   port,
@@ -40,7 +40,11 @@ func (d *postgre) DSN() string {
 	return dsn
 }
 
-func (d *postgre) Connect() (*sql.DB, error) {
+func (d *postgre) GetConnection() *sql.DB {
+	return d.Conn
+}
+
+func (d *postgre) Connect() *postgre {
 	//db, err := sql.Open("postgres", d.DSN())
 
 	db, err := otelsql.Open("postgres", d.DSN(),
@@ -49,17 +53,17 @@ func (d *postgre) Connect() (*sql.DB, error) {
 
 	if err != nil {
 		log.WithError(err).Fatal("unable to open postgres database")
-		return nil, err
+		return nil
 	}
 
 	err = db.Ping()
 	if err != nil {
 		log.WithError(err).Fatal("unable to ping connection postgres database")
-		return nil, err
+		return nil
 	}
 
 	d.Conn = db
-	return d.Conn, nil
+	return d
 }
 
 func initMigrator(dbConn *sql.DB) (*migrate.Migrate, error) {

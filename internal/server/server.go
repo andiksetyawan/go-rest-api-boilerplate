@@ -2,26 +2,20 @@ package server
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 	"os"
 	"os/signal"
 	"time"
 
-	"github.com/gorilla/mux"
 	log "github.com/sirupsen/logrus"
 	"go-rest-api-boilerplate/config"
 	"go-rest-api-boilerplate/internal/db"
-	httpTransport "go-rest-api-boilerplate/internal/transport/http"
-	"go-rest-api-boilerplate/internal/usecase/repository"
-	"go-rest-api-boilerplate/internal/usecase/service"
 	"go-rest-api-boilerplate/pkg/logger"
 	"go-rest-api-boilerplate/pkg/opentelemetry"
-	"go.opentelemetry.io/contrib/instrumentation/github.com/gorilla/mux/otelmux"
 )
 
 type server struct {
-	router  http.Handler
+	handler http.Handler
 	address string
 
 	shutdownUptrace opentelemetry.ShutdownUptraceFunc
@@ -39,20 +33,13 @@ func NewServer() *server {
 		shutdown = opentelemetry.InitUptrace(config.App.OtelUptraceDsn, config.App.ServiceName, "v1.0.0")
 	}
 
-	conf := config.App
-	dbConn, _ := db.NewPostgreeDb(conf.DbHost, conf.DbPort, conf.DbName, conf.DbUser, conf.DbPass).Connect()
+	pgDb := db.NewPostgreeDb(config.App.DbHost, config.App.DbPort, config.App.DbName, config.App.DbUser, config.App.DbPass)
+	dbCon := pgDb.Connect().GetConnection()
 
-	userRepo := repository.NewUserRepository(dbConn)
-	userSvc := service.NewUserService(userRepo)
-
-	router := mux.NewRouter()
-	router.Use(otelmux.Middleware(conf.ServiceName))
-	httpTransport.NewUserHandlerRegister(router, userSvc)
-	log.Infoln(conf.ServiceAddress)
-	fmt.Println("conf.ServiceAddress", conf.ServiceAddress)
+	handler := InitializedHandlerServer(dbCon)
 	return &server{
 		address:         config.App.ServiceAddress,
-		router:          router,
+		handler:         handler,
 		shutdownUptrace: shutdown,
 	}
 }
@@ -61,7 +48,7 @@ func (s *server) Run() {
 	c := make(chan os.Signal)
 	signal.Notify(c, os.Interrupt)
 
-	srv := http.Server{Handler: s.router, Addr: s.address}
+	srv := http.Server{Handler: s.handler, Addr: s.address}
 
 	go func() {
 		err := srv.ListenAndServe()
