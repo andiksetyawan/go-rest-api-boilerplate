@@ -23,6 +23,8 @@
 
 1. [Go](https://golang.org/doc/install) 1.16+
 2. [Docker](https://docs.docker.com/engine/install/)
+3. [Mockery](https://github.com/vektra/mockery), Mock code generator
+4. [Wire](https://github.com/google/wire), Dependency injection generator
 
 ### Setting up environment
 Default env:
