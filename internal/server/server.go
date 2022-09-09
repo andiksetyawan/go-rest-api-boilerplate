@@ -10,7 +10,6 @@ import (
 	log "github.com/sirupsen/logrus"
 	"go-rest-api-boilerplate/config"
 	"go-rest-api-boilerplate/internal/db"
-	"go-rest-api-boilerplate/pkg/logger"
 	"go-rest-api-boilerplate/pkg/opentelemetry"
 )
 
@@ -25,7 +24,7 @@ type server struct {
 
 func NewServer() *server {
 	config.Init()
-	logger.InitLogger()
+	config.InitLogger()
 
 	//init observability with uptrace only on production environment
 	var shutdown opentelemetry.ShutdownUptraceFunc
