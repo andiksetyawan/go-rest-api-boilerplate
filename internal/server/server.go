@@ -10,7 +10,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"go-rest-api-boilerplate/config"
 	"go-rest-api-boilerplate/internal/db"
-	"go-rest-api-boilerplate/pkg/opentelemetry"
+	"go-rest-api-boilerplate/pkg/observability/opentelemetry"
 )
 
 type server struct {
