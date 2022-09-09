@@ -1,0 +1,17 @@
+version: '3.9'
+services:
+  postgres-db:
+    image: postgres:13-alpine
+    command: postgres -c 'max_connections=500'
+    environment:
+      POSTGRES_DB: svc-go-rest-api-boilerplate
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5436:5432"
+    restart: always
+    volumes:
+      - postgres-db:/var/lib/postgresql/data/
+volumes:
+  postgres-db:
+    driver: local
