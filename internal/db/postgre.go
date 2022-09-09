@@ -22,7 +22,7 @@ type postgre struct {
 	dbName string
 	user   string
 	pass   string
-	Conn   *sql.DB
+	conn   *sql.DB
 }
 
 func NewPostgreeDb(host, port, dbName, user, pass string) *postgre {
@@ -41,7 +41,7 @@ func (d *postgre) DSN() string {
 }
 
 func (d *postgre) GetConnection() *sql.DB {
-	return d.Conn
+	return d.conn
 }
 
 func (d *postgre) Connect() *postgre {
@@ -62,7 +62,7 @@ func (d *postgre) Connect() *postgre {
 		return nil
 	}
 
-	d.Conn = db
+	d.conn = db
 	return d
 }
 
@@ -93,7 +93,7 @@ func initMigrator(dbConn *sql.DB) (*migrate.Migrate, error) {
 }
 
 func (d *postgre) MigrateUp() error {
-	m, err := initMigrator(d.Conn)
+	m, err := initMigrator(d.conn)
 	if err != nil {
 		log.WithError(err).Fatal(err)
 	}
@@ -109,7 +109,7 @@ func (d *postgre) MigrateUp() error {
 }
 
 func (d *postgre) MigrateDown() error {
-	m, err := initMigrator(d.Conn)
+	m, err := initMigrator(d.conn)
 	if err != nil {
 		log.WithError(err).Fatal(err.Error())
 	}
