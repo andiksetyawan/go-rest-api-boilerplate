@@ -26,3 +26,9 @@ migrate-up:
 migrate-down:
 	[ -f ./$(APP_NAME) ] && ./$(APP_NAME) migrate down || go build -o $(APP_NAME) cmd/main.go;\
 	./$(APP_NAME) migrate down
+
+docker-compose-run:
+	docker-compose up --build -d
+
+docker-compose-stop:
+	docker-compose down
