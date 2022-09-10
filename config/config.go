@@ -11,7 +11,7 @@ type configs struct {
 	ServiceEnvironment string `env:"SERVICE_ENVIRONMENT" yaml:"service_environment" env-default:"production"`
 
 	DbHost string `env:"DB_HOST" yaml:"db_host" env-default:"localhost"`
-	DbPort string `env:"DB_PORT" yaml:"db_port" env-default:"5436"`
+	DbPort string `env:"DB_PORT" yaml:"db_port" env-default:"5432"`
 	DbUser string `env:"DB_USER" yaml:"db_user" env-default:"postgres"`
 	DbPass string `env:"DB_PASSWORD" yaml:"db_password" env-default:"postgres"`
 	DbName string `env:"DB_NAME" yaml:"db_name" env-default:"svc-go-rest-api-boilerplate"`
