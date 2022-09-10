@@ -1,17 +1,59 @@
 version: '3.9'
 services:
-  postgres-db:
+  server:
+    build:
+      context: .
+    image: "go-rest-api-boilerplate"
+    command: [ "./go-rest-api-boilerplate", "server" ]
+    environment:
+      DB_HOST: postgres_db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: svc-go-rest-api-boilerplate
+    expose:
+      - "8081"
+    ports:
+      - "8081:8080"
+    depends_on:
+      postgres_db:
+        condition: service_healthy
+    restart: always
+  postgres_db:
     image: postgres:13-alpine
     command: postgres -c 'max_connections=500'
+    user: postgres
     environment:
       POSTGRES_DB: svc-go-rest-api-boilerplate
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+    expose:
+      - "5432"
     ports:
-      - "5436:5432"
+      - "5432:5432"
     restart: always
+#   https://github.com/peter-evans/docker-compose-healthcheck
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     volumes:
-      - postgres-db:/var/lib/postgresql/data/
+      - postgres_db:/var/lib/postgresql/data/
+  migration:
+    build:
+      context: .
+    image: "go-rest-api-boilerplate"
+    command: [ "./go-rest-api-boilerplate", "migrate", "up" ]
+    environment:
+      DB_HOST: "postgres_db"
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: svc-go-rest-api-boilerplate
+    depends_on:
+      postgres_db:
+        condition: service_healthy
 volumes:
-  postgres-db:
+  postgres_db:
     driver: local
