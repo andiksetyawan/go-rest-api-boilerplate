@@ -88,7 +88,6 @@ func (d *postgre) GetConnection() *sql.DB {
 
 func (d *postgre) Connect() *postgre {
 	//db, err := sql.Open("postgres", d.DSN())
-
 	db, err := otelsql.Open("postgres", d.DSN(),
 		otelsql.WithAttributes(semconv.DBSystemSqlite),
 		otelsql.WithDBName(d.dbName))
@@ -142,6 +141,10 @@ func (d *postgre) MigrateUp() error {
 
 	err = m.Up()
 	if err != nil {
+		if err == migrate.ErrNoChange {
+			log.Infof("migrate up database: %s", err.Error())
+			return nil
+		}
 		log.Errorf("err up migrating database: %s", err.Error())
 		return err
 	}
