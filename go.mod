@@ -18,6 +18,7 @@ require (
 	github.com/uptrace/opentelemetry-go-extra/otellogrus v0.1.16
 	github.com/uptrace/opentelemetry-go-extra/otelsql v0.1.16
 	github.com/uptrace/uptrace-go v1.9.0
+	go.opentelemetry.io/contrib/instrumentation/github.com/gorilla/mux/otelmux v0.34.0
 	go.opentelemetry.io/otel v1.9.0
 	go.opentelemetry.io/otel/exporters/otlp/otlpmetric v0.31.0
 	go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetricgrpc v0.31.0
@@ -42,6 +43,7 @@ require (
 	github.com/docker/docker v20.10.13+incompatible // indirect
 	github.com/docker/go-connections v0.4.0 // indirect
 	github.com/docker/go-units v0.4.0 // indirect
+	github.com/felixge/httpsnoop v1.0.3 // indirect
 	github.com/go-logr/logr v1.2.3 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-playground/locales v0.14.0 // indirect
