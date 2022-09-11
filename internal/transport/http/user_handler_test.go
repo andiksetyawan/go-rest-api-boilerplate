@@ -15,6 +15,7 @@ import (
 	"go-rest-api-boilerplate/internal/domain"
 	"go-rest-api-boilerplate/internal/domain/mocks"
 	"go-rest-api-boilerplate/internal/model/reqres"
+	"go-rest-api-boilerplate/pkg/httputil"
 )
 
 func TestUserHandler_FindAll(t *testing.T) {
@@ -43,7 +44,7 @@ func TestUserHandler_FindAll(t *testing.T) {
 		handler.FindAll(w, req)
 		//r.ServeHTTP(w, req)
 
-		var response reqres.ApiResponse
+		var response httputil.ApiResponse
 		json.NewDecoder(w.Body).Decode(&response)
 		assert.Equal(t, 200, w.Code)
 		assert.Equal(t, "OK", response.Message)
@@ -70,7 +71,7 @@ func TestUserHandler_FindAll(t *testing.T) {
 		handler := userHandler{userSvc: mockUserSvc}
 		handler.FindAll(w, req)
 
-		var response reqres.ApiResponse
+		var response httputil.ApiResponse
 		json.NewDecoder(w.Body).Decode(&response)
 		assert.Equal(t, http.StatusInternalServerError, w.Code)
 		assert.Equal(t, true, response.Error)
@@ -100,7 +101,7 @@ func TestUserHandler_FindByID(t *testing.T) {
 		handler := userHandler{userSvc: mockUserSvc}
 		handler.FindByID(w, req)
 
-		var response reqres.ApiResponse
+		var response httputil.ApiResponse
 		json.NewDecoder(w.Body).Decode(&response)
 		assert.Equal(t, 200, w.Code)
 		assert.Equal(t, "OK", response.Message)
@@ -128,7 +129,7 @@ func TestUserHandler_FindByID(t *testing.T) {
 		handler := userHandler{userSvc: mockUserSvc}
 		handler.FindByID(w, req)
 
-		var response reqres.ApiResponse
+		var response httputil.ApiResponse
 		json.NewDecoder(w.Body).Decode(&response)
 		assert.Equal(t, http.StatusInternalServerError, w.Code)
 		assert.Equal(t, true, response.Error)
@@ -158,7 +159,7 @@ func TestUserHandler_Create(t *testing.T) {
 		handler := userHandler{userSvc: mockUserSvc}
 		handler.Create(w, req)
 
-		var response reqres.ApiResponse
+		var response httputil.ApiResponse
 		json.NewDecoder(w.Body).Decode(&response)
 		assert.Equal(t, 200, w.Code)
 		assert.Equal(t, "OK", response.Message)
@@ -176,7 +177,7 @@ func TestUserHandler_Create(t *testing.T) {
 		handler := userHandler{userSvc: mockUserSvc}
 		handler.Create(w, req)
 
-		var response reqres.ApiResponse
+		var response httputil.ApiResponse
 		json.NewDecoder(w.Body).Decode(&response)
 		assert.Equal(t, http.StatusInternalServerError, w.Code)
 	})
@@ -192,7 +193,7 @@ func TestUserHandler_Create(t *testing.T) {
 		handler := userHandler{userSvc: mockUserSvc}
 		handler.Create(w, req)
 
-		var response reqres.ApiResponse
+		var response httputil.ApiResponse
 		json.NewDecoder(w.Body).Decode(&response)
 		assert.Equal(t, http.StatusUnprocessableEntity, w.Code)
 	})
@@ -222,7 +223,7 @@ func TestUserHandler_UpdateByID(t *testing.T) {
 		handler := userHandler{userSvc: mockUserSvc}
 		handler.UpdateByID(w, req)
 
-		var response reqres.ApiResponse
+		var response httputil.ApiResponse
 		json.NewDecoder(w.Body).Decode(&response)
 		assert.Equal(t, 200, w.Code)
 		assert.Equal(t, "OK", response.Message)
@@ -242,7 +243,7 @@ func TestUserHandler_UpdateByID(t *testing.T) {
 		handler := userHandler{userSvc: mockUserSvc}
 		handler.UpdateByID(w, req)
 
-		var response reqres.ApiResponse
+		var response httputil.ApiResponse
 		json.NewDecoder(w.Body).Decode(&response)
 		assert.Equal(t, http.StatusInternalServerError, w.Code)
 	})
@@ -259,7 +260,7 @@ func TestUserHandler_UpdateByID(t *testing.T) {
 		handler := userHandler{userSvc: mockUserSvc}
 		handler.UpdateByID(w, req)
 
-		var response reqres.ApiResponse
+		var response httputil.ApiResponse
 		json.NewDecoder(w.Body).Decode(&response)
 		assert.Equal(t, http.StatusUnprocessableEntity, w.Code)
 	})
@@ -278,7 +279,7 @@ func TestUserHandler_DeleteByID(t *testing.T) {
 		handler := userHandler{userSvc: mockUserSvc}
 		handler.DeleteByID(w, req)
 
-		var response reqres.ApiResponse
+		var response httputil.ApiResponse
 		json.NewDecoder(w.Body).Decode(&response)
 		assert.Equal(t, 200, w.Code)
 		assert.Equal(t, "OK", response.Message)
@@ -296,7 +297,7 @@ func TestUserHandler_DeleteByID(t *testing.T) {
 		handler := userHandler{userSvc: mockUserSvc}
 		handler.DeleteByID(w, req)
 
-		var response reqres.ApiResponse
+		var response httputil.ApiResponse
 		json.NewDecoder(w.Body).Decode(&response)
 		assert.Equal(t, http.StatusInternalServerError, w.Code)
 		assert.Equal(t, true, response.Error)
