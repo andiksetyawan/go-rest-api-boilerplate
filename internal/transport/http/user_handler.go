@@ -52,7 +52,7 @@ func (h *userHandler) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	httputil.RespondWithJSON(w, http.StatusOK, reqres.ApiResponse{
+	httputil.RespondWithJSON(w, http.StatusOK, httputil.ApiResponse{
 		Error:   false,
 		Message: "OK",
 		Data:    nil,
@@ -88,7 +88,7 @@ func (h *userHandler) UpdateByID(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	httputil.RespondWithJSON(w, http.StatusOK, reqres.ApiResponse{
+	httputil.RespondWithJSON(w, http.StatusOK, httputil.ApiResponse{
 		Error:   false,
 		Message: "OK",
 		Data:    nil,
@@ -109,7 +109,7 @@ func (h *userHandler) DeleteByID(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	httputil.RespondWithJSON(w, http.StatusOK, reqres.ApiResponse{
+	httputil.RespondWithJSON(w, http.StatusOK, httputil.ApiResponse{
 		Error:   false,
 		Message: "OK",
 		Data:    nil,
@@ -123,7 +123,7 @@ func (h *userHandler) FindAll(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	httputil.RespondWithJSON(w, http.StatusOK, reqres.ApiResponse{
+	httputil.RespondWithJSON(w, http.StatusOK, httputil.ApiResponse{
 		Error:   false,
 		Message: "OK",
 		Data:    users,
@@ -149,7 +149,7 @@ func (h *userHandler) FindByID(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	httputil.RespondWithJSON(w, http.StatusOK, reqres.ApiResponse{
+	httputil.RespondWithJSON(w, http.StatusOK, httputil.ApiResponse{
 		Error:   false,
 		Message: "OK",
 		Data:    user,

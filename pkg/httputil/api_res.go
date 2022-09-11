@@ -1,4 +1,4 @@
-package reqres
+package httputil
 
 type ApiResponse struct {
 	Error   bool        `json:"error"`

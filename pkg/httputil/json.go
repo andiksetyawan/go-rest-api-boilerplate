@@ -3,12 +3,10 @@ package httputil
 import (
 	"encoding/json"
 	"net/http"
-
-	"go-rest-api-boilerplate/internal/model/reqres"
 )
 
 func RespondWithError(w http.ResponseWriter, code int, message string) {
-	RespondWithJSON(w, code, reqres.ApiResponse{
+	RespondWithJSON(w, code, ApiResponse{
 		Error:   true,
 		Message: message,
 		Data:    nil,
