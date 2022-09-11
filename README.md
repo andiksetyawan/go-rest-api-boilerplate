@@ -3,12 +3,18 @@
 #### TODO:
 - [X] Clean Arch
 - [X] Unit Test
-- [X] Metrics, tracer, logger integration
+- [X] Metrics, tracer, logger with [OpenTelemetry](https://opentelemetry.io/)
+  - [X] Uptrace (observability all-in-one tool). for simple example we use cloud OTLP server from [uptrace.dev](https://uptrace.dev/)
+  - [ ] Standalone Tracer & Metrics ([Otel collector](https://opentelemetry.io/docs/collector/))
+    - [X] Tracer Provider
+    - [ ] Metrics Provider
+      - [ ] Go Runtime
+      - [X] Histogram
+- [ ] http req/res metrics wrapper
 - [ ] Integration Test
-- [ ] http req/res metrics
-- [ ] Docker-compose services: open-telemetry collector, uptrace, dll
+- [X] Openapi spec
+- [ ] Docker-compose of the observability services: otel-collector, uptrace, etc.
 - [ ] Doc Readme
-- [ ] Openapi spec
 - [ ] Increase test coverage
 - [ ] .etc
 
