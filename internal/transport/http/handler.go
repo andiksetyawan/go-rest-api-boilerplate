@@ -12,11 +12,15 @@ import (
 func NewHandler(userService domain.UserService) http.Handler {
 	r := mux.NewRouter()
 
-	r.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("pong"))
+	r.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte("ok"))
 	})
 
 	r.Use(otelmux.Middleware(config.App.ServiceName))
+
+	//Registered handler
 	NewUserHandlerRegister(r, userService)
+
 	return r
 }
