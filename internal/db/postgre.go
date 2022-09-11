@@ -16,7 +16,6 @@ import (
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/wait"
 	"github.com/uptrace/opentelemetry-go-extra/otelsql"
-	"go-rest-api-boilerplate/config"
 	semconv "go.opentelemetry.io/otel/semconv/v1.10.0"
 )
 
@@ -107,10 +106,10 @@ func (d *postgre) Connect() *postgre {
 	return d
 }
 
-func initMigrator(dbConn *sql.DB) (*migrate.Migrate, error) {
+func initMigrator(d *postgre) (*migrate.Migrate, error) {
 	//driver, err := mysql.WithInstance(dbConn, &mysql.Config{})
 
-	driver, err := postgres.WithInstance(dbConn, &postgres.Config{})
+	driver, err := postgres.WithInstance(d.conn, &postgres.Config{})
 	if err != nil {
 		return nil, err
 	}
@@ -128,13 +127,13 @@ func initMigrator(dbConn *sql.DB) (*migrate.Migrate, error) {
 	log.Infof("source files migration : %s", mountPath)
 	return migrate.NewWithDatabaseInstance(
 		mountPath,
-		config.App.DbName,
+		d.dbName,
 		driver,
 	)
 }
 
 func (d *postgre) MigrateUp() error {
-	m, err := initMigrator(d.conn)
+	m, err := initMigrator(d)
 	if err != nil {
 		log.WithError(err).Fatal(err)
 	}
@@ -154,7 +153,7 @@ func (d *postgre) MigrateUp() error {
 }
 
 func (d *postgre) MigrateDown() error {
-	m, err := initMigrator(d.conn)
+	m, err := initMigrator(d)
 	if err != nil {
 		log.WithError(err).Fatal(err.Error())
 	}
